@@ -6,6 +6,7 @@ import com.example.roomplayground.model.UserInfo
 import com.example.roomplayground.repository.UserRepository
 import com.example.roomplayground.utils.State
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -25,12 +26,13 @@ class MainActivityViewModel @Inject constructor(private val userRepository: User
     val viewModelState: StateFlow<HomeUiState> = _viewModelState
     init {
         viewModelScope.launch {
-            _viewModelState.emit(_viewModelState.value.copy(userData = listOf(), userDataFetchState = UserDataFetchState.LOADING))
             fetchUserData()
         }
     }
 
     private suspend fun fetchUserData() {
+        _viewModelState.emit(_viewModelState.value.copy(userData = listOf(), userDataFetchState = UserDataFetchState.LOADING))
+        delay(2000)
         userRepository.getUserDetails().collect {
             when (it) {
                 is State.Failed -> {
@@ -42,7 +44,12 @@ class MainActivityViewModel @Inject constructor(private val userRepository: User
                     )
                 }
                 is State.Success -> {
-                    _viewModelState.emit(_viewModelState.value.copy(userData = it.data))
+                    _viewModelState.emit(
+                        _viewModelState.value.copy(
+                            userData = it.data,
+                            userDataFetchState = UserDataFetchState.IDLE
+                        )
+                    )
                 }
             }
         }

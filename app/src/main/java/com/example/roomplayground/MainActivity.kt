@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -11,6 +13,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -20,6 +23,7 @@ import com.example.roomplayground.components.AppUserListView
 import com.example.roomplayground.components.addUserDialog
 import com.example.roomplayground.ui.theme.RoomPlaygroundTheme
 import com.example.roomplayground.viewModel.MainActivityViewModel
+import com.example.roomplayground.viewModel.UserDataFetchState
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -62,6 +66,11 @@ fun MainScreen(viewModel: MainActivityViewModel = viewModel()) {
         },
         content = {
             AppUserListView(uiState.value.userData)
+            if (uiState.value.userDataFetchState == UserDataFetchState.LOADING) {
+                Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
+                    CircularProgressIndicator()
+                }
+            }
             if (showAddUserPopup) {
                 addUserDialog(onDismissRequest = {
                     showAddUserPopup = false
