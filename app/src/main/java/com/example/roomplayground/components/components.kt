@@ -129,7 +129,7 @@ fun AppVerticalSpacer(width: Dp) {
 }
 
 @Composable
-fun addUserDialog(
+fun AddUserDialog(
     onDismissRequest: () -> Unit,
     onSave: (name: String, email: String, phoneNo: String) -> Unit
 ) {
