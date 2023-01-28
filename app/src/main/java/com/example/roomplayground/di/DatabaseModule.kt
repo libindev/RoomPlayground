@@ -2,7 +2,7 @@ package com.example.roomplayground.di
 
 
 import android.content.Context
-import com.example.roomplayground.database.AuthDatabase
+import com.example.roomplayground.database.AppDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,10 +15,10 @@ import javax.inject.Singleton
 object DatabaseModule {
     @Singleton
     @Provides
-    fun provideDatabase(@ApplicationContext appContext: Context): AuthDatabase = AuthDatabase.getDatabase(appContext)
+    fun provideDatabase(@ApplicationContext appContext: Context): AppDatabase = AppDatabase.getDatabase(appContext)
     @Singleton
     @Provides
-    fun provideUserInfoDao(db: AuthDatabase) = db.userInfoDao()
+    fun provideUserInfoDao(db: AppDatabase) = db.userInfoDao()
 
 
 }

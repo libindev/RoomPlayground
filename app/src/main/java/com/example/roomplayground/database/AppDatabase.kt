@@ -17,14 +17,14 @@ import com.example.roomplayground.utils.Converters
     exportSchema = false
 )
 @TypeConverters(Converters::class)
-abstract class AuthDatabase : RoomDatabase() {
+abstract class AppDatabase : RoomDatabase() {
     abstract fun userInfoDao(): UserInfoDao
 
     companion object {
         @Volatile
-        private var instance: AuthDatabase? = null
+        private var instance: AppDatabase? = null
 
-        fun getDatabase(context: Context): AuthDatabase =
+        fun getDatabase(context: Context): AppDatabase =
             instance ?: synchronized(this) {
                 instance ?: buildDatabase(context).also {
                     instance = it
@@ -32,7 +32,7 @@ abstract class AuthDatabase : RoomDatabase() {
             }
 
         private fun buildDatabase(appContext: Context) =
-            Room.databaseBuilder(appContext, AuthDatabase::class.java, "auth")
+            Room.databaseBuilder(appContext, AppDatabase::class.java, "auth")
                 .fallbackToDestructiveMigration()
                 .build()
     }
