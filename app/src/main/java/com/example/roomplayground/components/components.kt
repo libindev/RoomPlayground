@@ -42,7 +42,7 @@ fun AppTextField(
 @Composable
 fun AppUserListView(userInfoList: List<UserInfo>) {
     LazyColumn {
-        itemsIndexed(userInfoList) { index, item ->
+        itemsIndexed(userInfoList) { _, item ->
             AppUserListItem(item)
         }
     }
@@ -95,7 +95,7 @@ fun AppUserListItem(item: UserInfo) {
                 )
                 AppHorizontalSpacer(height = 10.dp)
                 Text(
-                    text = item.phoneNo,
+                    text = item.phone,
                     style = TextStyle(
                         fontSize = 14.sp,
                         letterSpacing = (0.8).sp,
@@ -177,7 +177,7 @@ fun AddUserDialog(
                     AppHorizontalSpacer(height = 10.dp)
                     AppButton(text = "Save") {
                         onSave.invoke(name, email, phoneNumber)
-                        // viewModel.saveUserData(name = name, email = email, phoneNo = phoneNumber)
+                        // viewModel.saveUserData(name = name, email = email, phone = phoneNumber)
                     }
                 }
             }

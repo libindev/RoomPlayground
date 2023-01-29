@@ -1,10 +1,8 @@
 package com.example.roomplayground.database
 
 import android.content.Context
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
-import androidx.room.TypeConverters
+import androidx.room.*
+import androidx.room.migration.AutoMigrationSpec
 import com.example.roomplayground.database.dao.UserInfoDao
 import com.example.roomplayground.model.UserInfo
 import com.example.roomplayground.utils.Converters
@@ -13,18 +11,19 @@ import com.example.roomplayground.utils.Converters
     entities = [
         UserInfo::class
     ],
-    version = 1,
-    exportSchema = false
+    version = 2,
+    autoMigrations = [AutoMigration(from = 1, to = 2, spec = AuthDatabase.MigratePhoneNOToPhone::class)],
+    exportSchema = true
 )
 @TypeConverters(Converters::class)
-abstract class AppDatabase : RoomDatabase() {
+abstract class AuthDatabase : RoomDatabase() {
     abstract fun userInfoDao(): UserInfoDao
 
     companion object {
         @Volatile
-        private var instance: AppDatabase? = null
+        private var instance: AuthDatabase? = null
 
-        fun getDatabase(context: Context): AppDatabase =
+        fun getDatabase(context: Context): AuthDatabase =
             instance ?: synchronized(this) {
                 instance ?: buildDatabase(context).also {
                     instance = it
@@ -32,8 +31,11 @@ abstract class AppDatabase : RoomDatabase() {
             }
 
         private fun buildDatabase(appContext: Context) =
-            Room.databaseBuilder(appContext, AppDatabase::class.java, "auth")
+            Room.databaseBuilder(appContext, AuthDatabase::class.java, "auth")
                 .fallbackToDestructiveMigration()
                 .build()
     }
+
+    @RenameColumn(tableName = "user_info", fromColumnName = "phoneNo", toColumnName = "phone")
+    class MigratePhoneNOToPhone : AutoMigrationSpec
 }

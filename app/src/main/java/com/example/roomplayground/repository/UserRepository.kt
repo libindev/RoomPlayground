@@ -20,7 +20,7 @@ class UserRepository @Inject constructor(private val userInfo: UserInfoDao) {
                         id = null,
                         name = name,
                         email = email,
-                        phoneNo = phoneNo,
+                        phone = phoneNo,
                         createdDate = Calendar.getInstance().time
                     )
                 )

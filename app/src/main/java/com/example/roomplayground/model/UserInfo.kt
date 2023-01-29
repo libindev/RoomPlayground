@@ -10,6 +10,6 @@ data class UserInfo(
     var id: Int? = null,
     val name: String,
     val email: String,
-    val phoneNo: String,
+    val phone: String,
     val createdDate: Date
 )
