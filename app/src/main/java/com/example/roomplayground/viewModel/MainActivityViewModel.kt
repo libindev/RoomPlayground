@@ -55,9 +55,9 @@ class MainActivityViewModel @Inject constructor(private val userRepository: User
         }
     }
 
-    fun saveUserData(name: String, email: String, phoneNo: String) {
+    fun saveUserData(name: String, email: String, phoneNo: String, address: String) {
         viewModelScope.launch {
-            userRepository.saveUserData(name, email, phoneNo).collect { its ->
+            userRepository.saveUserData(name, email, phoneNo, address).collect { its ->
                 when (its) {
                     is State.Failed -> {
                         _viewModelState.emit(

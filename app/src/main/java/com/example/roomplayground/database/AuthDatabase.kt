@@ -11,8 +11,10 @@ import com.example.roomplayground.utils.Converters
     entities = [
         UserInfo::class
     ],
-    version = 2,
-    autoMigrations = [AutoMigration(from = 1, to = 2, spec = AuthDatabase.MigratePhoneNOToPhone::class)],
+    version = 3,
+    autoMigrations = [
+        AutoMigration(from = 1, to = 2, spec = AuthDatabase.MigratePhoneNOToPhone::class), AutoMigration(from = 2, to = 3)
+    ],
     exportSchema = true
 )
 @TypeConverters(Converters::class)

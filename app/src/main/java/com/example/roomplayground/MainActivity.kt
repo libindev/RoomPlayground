@@ -19,8 +19,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.roomplayground.components.AppUserListView
 import com.example.roomplayground.components.AddUserDialog
+import com.example.roomplayground.components.AppUserListView
 import com.example.roomplayground.ui.theme.RoomPlaygroundTheme
 import com.example.roomplayground.viewModel.MainActivityViewModel
 import com.example.roomplayground.viewModel.UserDataFetchState
@@ -74,9 +74,9 @@ fun MainScreen(viewModel: MainActivityViewModel = viewModel()) {
             if (showAddUserPopup) {
                 AddUserDialog(onDismissRequest = {
                     showAddUserPopup = false
-                }, onSave = { name, email, phoneNo ->
+                }, onSave = { name, email, phoneNo, address ->
                         showAddUserPopup = false
-                        viewModel.saveUserData(name, email, phoneNo)
+                        viewModel.saveUserData(name, email, phoneNo, address)
                     })
             }
         }
