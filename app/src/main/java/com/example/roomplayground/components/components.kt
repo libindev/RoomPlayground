@@ -42,7 +42,7 @@ fun AppTextField(
 @Composable
 fun AppUserListView(userInfoList: List<UserInfo>) {
     LazyColumn {
-        itemsIndexed(userInfoList) { index, item ->
+        itemsIndexed(userInfoList) { _, item ->
             AppUserListItem(item)
         }
     }
@@ -95,7 +95,16 @@ fun AppUserListItem(item: UserInfo) {
                 )
                 AppHorizontalSpacer(height = 10.dp)
                 Text(
-                    text = item.phoneNo,
+                    text = item.phone,
+                    style = TextStyle(
+                        fontSize = 14.sp,
+                        letterSpacing = (0.8).sp,
+                        color = Color.Gray
+                    )
+                )
+                AppHorizontalSpacer(height = 10.dp)
+                Text(
+                    text = item.address.ifEmpty { "___" },
                     style = TextStyle(
                         fontSize = 14.sp,
                         letterSpacing = (0.8).sp,
@@ -131,11 +140,12 @@ fun AppVerticalSpacer(width: Dp) {
 @Composable
 fun AddUserDialog(
     onDismissRequest: () -> Unit,
-    onSave: (name: String, email: String, phoneNo: String) -> Unit
+    onSave: (name: String, email: String, phoneNo: String, address: String) -> Unit
 ) {
     var name by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var phoneNumber by remember { mutableStateOf("") }
+    var address by remember { mutableStateOf("") }
     Dialog(
         onDismissRequest = {
             onDismissRequest.invoke()
@@ -173,11 +183,19 @@ fun AddUserDialog(
                             phoneNumber = it
                         }
                     )
-
+                    AppHorizontalSpacer(height = 10.dp)
+                    AppTextField(
+                        text = address,
+                        label = "Enter your Address",
+                        keyboardType = KeyboardType.Text,
+                        onTextChange = {
+                            address = it
+                        }
+                    )
                     AppHorizontalSpacer(height = 10.dp)
                     AppButton(text = "Save") {
-                        onSave.invoke(name, email, phoneNumber)
-                        // viewModel.saveUserData(name = name, email = email, phoneNo = phoneNumber)
+                        onSave.invoke(name, email, phoneNumber, address)
+                        // viewModel.saveUserData(name = name, email = email, phone = phoneNumber)
                     }
                 }
             }

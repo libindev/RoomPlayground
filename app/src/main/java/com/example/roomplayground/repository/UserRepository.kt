@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 class UserRepository @Inject constructor(private val userInfo: UserInfoDao) {
 
-    fun saveUserData(name: String, email: String, phoneNo: String): Flow<State<Boolean>> {
+    fun saveUserData(name: String, email: String, phoneNo: String, address: String): Flow<State<Boolean>> {
         return flow {
             try {
                 userInfo.insert(
@@ -20,7 +20,8 @@ class UserRepository @Inject constructor(private val userInfo: UserInfoDao) {
                         id = null,
                         name = name,
                         email = email,
-                        phoneNo = phoneNo,
+                        phone = phoneNo,
+                        address = address,
                         createdDate = Calendar.getInstance().time
                     )
                 )

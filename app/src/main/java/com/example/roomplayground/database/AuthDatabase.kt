@@ -1,10 +1,8 @@
 package com.example.roomplayground.database
 
 import android.content.Context
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
-import androidx.room.TypeConverters
+import androidx.room.*
+import androidx.room.migration.AutoMigrationSpec
 import com.example.roomplayground.database.dao.UserInfoDao
 import com.example.roomplayground.model.UserInfo
 import com.example.roomplayground.utils.Converters
@@ -13,8 +11,11 @@ import com.example.roomplayground.utils.Converters
     entities = [
         UserInfo::class
     ],
-    version = 1,
-    exportSchema = false
+    version = 3,
+    autoMigrations = [
+        AutoMigration(from = 1, to = 2, spec = AuthDatabase.MigratePhoneNOToPhone::class), AutoMigration(from = 2, to = 3)
+    ],
+    exportSchema = true
 )
 @TypeConverters(Converters::class)
 abstract class AuthDatabase : RoomDatabase() {
@@ -36,4 +37,7 @@ abstract class AuthDatabase : RoomDatabase() {
                 .fallbackToDestructiveMigration()
                 .build()
     }
+
+    @RenameColumn(tableName = "user_info", fromColumnName = "phoneNo", toColumnName = "phone")
+    class MigratePhoneNOToPhone : AutoMigrationSpec
 }

@@ -1,5 +1,6 @@
 package com.example.roomplayground.model
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.util.Date
@@ -10,6 +11,8 @@ data class UserInfo(
     var id: Int? = null,
     val name: String,
     val email: String,
-    val phoneNo: String,
-    val createdDate: Date
+    val phone: String,
+    val createdDate: Date,
+    @ColumnInfo(name = "address", defaultValue = "")
+    val address: String = ""
 )
